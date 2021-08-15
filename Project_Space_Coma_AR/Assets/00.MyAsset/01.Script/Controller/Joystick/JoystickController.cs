@@ -9,6 +9,7 @@ namespace JHS
     /// </summary>
     public class JoystickController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
+
         #region 변수
 
         [SerializeField] RectTransform m_stickTr;

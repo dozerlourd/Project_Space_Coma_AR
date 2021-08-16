@@ -16,6 +16,7 @@ namespace JHS
         float m_radius; // 반지름
 
         bool m_isControlJoystick;
+
         Vector2 m_initPos;
 
         #endregion
@@ -41,7 +42,7 @@ namespace JHS
         {
             if (m_isControlJoystick) return;
 
-            if (Input.GetAxis("Horizontal") <= 0.4f) InputDirection = new Vector2(0, Input.GetAxis("Vertical"));
+            //if (Input.GetAxis("Horizontal") <= 0.4f) InputDirection = new Vector2(0, Input.GetAxis("Vertical"));
             InputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         }
 
@@ -53,14 +54,14 @@ namespace JHS
         public void OnPointerDown(PointerEventData eventData)
         {
             m_isControlJoystick = true;
-            m_backgroundTr.position = eventData.position;
+            //m_backgroundTr.position = eventData.position;
 
             Vector2 direction = eventData.position - (Vector2)m_backgroundTr.position;
             direction = Vector2.ClampMagnitude(direction, m_radius);
 
             m_stickTr.localPosition = direction;
 
-            InputDirection = new Vector2(direction.x, direction.y);
+            InputDirection = new Vector2(direction.x / 200, direction.y / 200);
         }
 
         // 반지름을 넘어서지 않는 선에서 입력 위치로 스틱을 위치시키며 입력 방향을 노멀라이즈하여 대입
@@ -71,7 +72,7 @@ namespace JHS
 
             m_stickTr.localPosition = direction;
 
-            InputDirection = new Vector2(Mathf.Clamp(direction.x, -1, 1), Mathf.Clamp(direction.y, -0.5f, 0.5f));
+            InputDirection = new Vector2(Mathf.Clamp(direction.x / 200, -1, 1), Mathf.Clamp(direction.y / 200, -0.5f, 0.5f));
         }
 
         // 스틱을 원래 위치로 돌려놓고 입력 방향 또한 초기화
@@ -79,7 +80,7 @@ namespace JHS
         {
             InputDirection = Vector2.zero;
             m_stickTr.localPosition = Vector2.zero;
-            m_backgroundTr.localPosition = m_initPos;
+            //m_backgroundTr.localPosition = m_initPos;
 
             m_isControlJoystick = false;
         }
